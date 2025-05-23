@@ -1,0 +1,18 @@
+<!-- templates/dependiente/atender_cliente.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Atender Cliente</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Atender Cliente', userRole='DEPENDIENTE'">
+    <section>
+        <h2>Atención al Cliente</h2>
+        <p>Aquí podrás buscar y atender a los clientes del banco.</p>
+        <!-- Contenido futuro: formulario de búsqueda, detalles del cliente, acciones permitidas -->
+    </section>
+</div>
+</body>
+</html>

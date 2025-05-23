@@ -1,0 +1,27 @@
+
+<div th:fragment="sidebar(role)">
+    <nav>
+        <ul>
+            <li><a th:href="@{/home/dashboard}">Inicio</a></li>
+
+            <!-- Cliente -->
+            <li th:if="${role == 'CLIENTE'}"><a th:href="@{/cuentas}">Mis cuentas</a></li>
+            <li th:if="${role == 'CLIENTE'}"><a th:href="@{/movimientos}">Movimientos</a></li>
+
+            <!-- Dependiente -->
+            <li th:if="${role == 'DEPENDIENTE'}"><a th:href="@{/servicios-cliente}">Atender cliente</a></li>
+
+            <!-- Cajero -->
+            <li th:if="${role == 'CAJERO'}"><a th:href="@{/clientes/nuevo}">Registrar cliente</a></li>
+            <li th:if="${role == 'CAJERO'}"><a th:href="@{/prestamos/apertura}">Aperturar préstamo</a></li>
+
+            <!-- Gerente de sucursal -->
+            <li th:if="${role == 'GERENTE_SUCURSAL'}"><a th:href="@{/empleados/nuevo}">Nuevo empleado</a></li>
+            <li th:if="${role == 'GERENTE_SUCURSAL'}"><a th:href="@{/prestamos/revision}">Revisar préstamos</a></li>
+
+            <!-- Gerente general -->
+            <li th:if="${role == 'GERENTE_GENERAL'}"><a th:href="@{/sucursales/nueva}">Nueva sucursal</a></li>
+            <li th:if="${role == 'GERENTE_GENERAL'}"><a th:href="@{/acciones-personal}">Acciones de personal</a></li>
+        </ul>
+    </nav>
+</div>

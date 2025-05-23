@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Aperturar Préstamo</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Aperturar Préstamo', userRole='CAJERO'">
+    <section>
+        <h2>Apertura de nuevo préstamo</h2>
+        <p>Formulario para abrir un nuevo préstamo para un cliente.</p>
+        <!-- Aquí irá el formulario de apertura -->
+    </section>
+</div>
+</body>
+</html>

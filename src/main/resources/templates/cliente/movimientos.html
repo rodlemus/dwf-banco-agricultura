@@ -1,0 +1,17 @@
+<!-- templates/cliente/movimientos.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Movimientos</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Mis movimientos', userRole='CLIENTE'">
+    <section>
+        <h2>Movimientos de tus cuentas</h2>
+        <p>Aquí se mostrarán los movimientos bancarios del cliente.</p>
+    </section>
+</div>
+</body>
+</html>

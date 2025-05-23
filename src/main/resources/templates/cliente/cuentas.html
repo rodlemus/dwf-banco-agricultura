@@ -1,0 +1,16 @@
+<!-- templates/cliente/cuentas.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis cuentas</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})" th:with="pageTitle='Mis cuentas', userRole='CLIENTE'">
+    <section>
+        <h2>Mis cuentas bancarias</h2>
+        <p>Aquí se listarán las cuentas del cliente.</p>
+    </section>
+</div>
+</body>
+</html>

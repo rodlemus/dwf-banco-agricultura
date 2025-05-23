@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Revisar Préstamos</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Revisar Préstamos', userRole='GERENTE_SUCURSAL'">
+    <section>
+        <h2>Revisión de solicitudes de préstamos</h2>
+        <p>Listado de préstamos pendientes de aprobación.</p>
+        <!-- Aquí se listarán los préstamos pendientes -->
+    </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="layout/base :: head"></head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::#contenido})">
+    <!-- Aquí se renderiza el layout base y se inserta el contenido -->
+
+    <!-- Este es el contenido que se pasará al fragmento -->
+    <div id="contenido">
+        <h2>Bienvenido al panel de control</h2>
+        <p>Tu rol: <span th:text="${userRole}"></span></p>
+    </div>
+</div>
+</body>
+</html>

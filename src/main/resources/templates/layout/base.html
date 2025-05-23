@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${pageTitle} ?: 'BancoBAS'">BancoBAS</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<div th:fragment="baseLayout(content)">
+    <aside>
+        <div th:replace="layout/fragments/sidebar :: sidebar(${userRole})"></div>
+    </aside>
+    <main>
+        <div th:replace="${content}"></div>
+    </main>
+</div>
+</body>
+</html>

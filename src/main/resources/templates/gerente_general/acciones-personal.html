@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Acciones de Personal</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Acciones de Personal', userRole='GERENTE_GENERAL'">
+    <section>
+        <h2>Gestión de acciones de personal</h2>
+        <p>Visualización y control de las acciones relacionadas al personal.</p>
+        <!-- Aquí irá la lógica para ver/editar/gestionar personal -->
+    </section>
+</div>
+</body>
+</html>

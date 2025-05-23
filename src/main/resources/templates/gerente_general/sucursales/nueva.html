@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Sucursal</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Nueva Sucursal', userRole='GERENTE_GENERAL'">
+    <section>
+        <h2>Registro de nueva sucursal</h2>
+        <p>Formulario para agregar una nueva sucursal bancaria.</p>
+        <!-- Aquí irá el formulario de nueva sucursal -->
+    </section>
+</div>
+</body>
+</html>
