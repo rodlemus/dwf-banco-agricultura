@@ -3,40 +3,70 @@ package com.udb.bancobas.controller;
 import com.udb.bancobas.model.Branch;
 import com.udb.bancobas.service.BranchService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/branches")
+@Controller
+@RequestMapping("/branches")
 public class BranchController {
 
     @Autowired
     private BranchService branchService;
 
+    // Mostrar todas las sucursales
     @GetMapping
-    public List<Branch> getAllBranches() {
-        return branchService.getAllBranches();
+    public String listBranches(Model model) {
+        List<Branch> branches = branchService.getAllBranches();
+        model.addAttribute("branches", branches);
+        return "branches/list"; // Vista: templates/branches/list.html
     }
 
+    // Mostrar detalles de una sucursal
     @GetMapping("/{id}")
-    public Branch getBranchById(@PathVariable Long id) {
-        return branchService.getBranchById(id)
+    public String viewBranch(@PathVariable Long id, Model model) {
+        Branch branch = branchService.getBranchById(id)
                 .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
+        model.addAttribute("branch", branch);
+        return "branches/detail"; // Vista: templates/branches/detail.html
     }
 
+    // Mostrar formulario de nueva sucursal
+    @GetMapping("/new")
+    public String showCreateForm(Model model) {
+        model.addAttribute("branch", new Branch());
+        return "branches/form"; // Vista: templates/branches/form.html
+    }
+
+    // Guardar nueva sucursal
     @PostMapping
-    public Branch createBranch(@RequestBody Branch branch) {
-        return branchService.createBranch(branch);
+    public String createBranch(@ModelAttribute Branch branch) {
+        branchService.createBranch(branch);
+        return "redirect:/branches";
     }
 
-    @PutMapping("/{id}")
-    public Branch updateBranch(@PathVariable Long id, @RequestBody Branch branch) {
-        return branchService.updateBranch(id, branch);
+    // Mostrar formulario de edición
+    @GetMapping("/edit/{id}")
+    public String showEditForm(@PathVariable Long id, Model model) {
+        Branch branch = branchService.getBranchById(id)
+                .orElseThrow(() -> new RuntimeException("Sucursal no encontrada"));
+        model.addAttribute("branch", branch);
+        return "branches/form"; // Reutiliza la misma vista del formulario
     }
 
-    @DeleteMapping("/{id}")
-    public void deleteBranch(@PathVariable Long id) {
+    // Actualizar sucursal
+    @PostMapping("/update/{id}")
+    public String updateBranch(@PathVariable Long id, @ModelAttribute Branch branch) {
+        branchService.updateBranch(id, branch);
+        return "redirect:/branches";
+    }
+
+    // Eliminar sucursal
+    @GetMapping("/delete/{id}")
+    public String deleteBranch(@PathVariable Long id) {
         branchService.deleteBranch(id);
+        return "redirect:/branches";
     }
 }

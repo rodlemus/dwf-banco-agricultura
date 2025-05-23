@@ -39,7 +39,7 @@ public class Transaction {
     private BankAccount relatedAccount;
 
     @ManyToOne
-    @JoinColumn(name = "performed_by")
+    @JoinColumn(name = "performed_by", nullable = false)
     private User performedBy;
 
     private LocalDateTime createdAt;

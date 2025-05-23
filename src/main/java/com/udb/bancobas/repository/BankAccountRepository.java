@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface BankAccountRepository extends JpaRepository<BankAccount, Integer> {
 
     // Obtener todas las cuentas de un usuario por su ID
-    List<BankAccount> findByUserId(User user);
+    List<BankAccount> findByUser(User user);
 
     // Verificar existencia de una cuenta por ID
     Optional<BankAccount> findById(Long id);

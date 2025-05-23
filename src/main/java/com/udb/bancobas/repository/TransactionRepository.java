@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-
 public interface TransactionRepository extends JpaRepository<Transaction, Integer> {
 
     // Obtener todas las transacciones de una cuenta específica
