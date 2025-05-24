@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Préstamos Solicitados</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Préstamos Solicitados', userRole='CAJERO'">
+    <section>
+        <h2>Préstamos solicitados</h2>
+        <p>Lista de préstamos registrados por clientes.</p>
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Cliente</th>
+                <th>Monto Solicitado</th>
+                <th>Interés (%)</th>
+                <th>Pago Mensual</th>
+                <th>Años</th>
+                <th>Estado</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="prestamo : ${prestamos}">
+                <td th:text="${prestamo.id}"></td>
+                <td th:text="${prestamo.user.name}"></td>
+                <td th:text="${prestamo.amountRequested}"></td>
+                <td th:text="${prestamo.interestRate}"></td>
+                <td th:text="${prestamo.monthlyPayment}"></td>
+                <td th:text="${prestamo.yearsToPay}"></td>
+                <td th:text="${prestamo.status}"></td>
+                <td th:text="${#temporals.format(prestamo.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+</div>
+</body>
+</html>

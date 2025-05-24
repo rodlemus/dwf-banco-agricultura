@@ -33,12 +33,4 @@ public class ClienteController {
         return "cliente/movimientos";
     }
 
-    @PostMapping("/guardar-cliente")
-    public String guardarCliente(@ModelAttribute("cliente") User cliente) {
-        cliente.setRole(User.Role.cliente);
-        cliente.setStatus(User.Status.activo);
-        // Aquí podrías encriptar la contraseña si usas Spring Security
-        userRepository.save(cliente);
-        return "redirect:/cajero/clientes";
-    }
 }

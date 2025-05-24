@@ -12,7 +12,7 @@
         <p>Formulario para registrar un nuevo cliente.</p>
 
         <!-- Formulario de registro -->
-        <form th:action="@{/clientes/guardar-cliente}" th:object="${cliente}" method="post">
+        <form th:action="@{/cajero/guardar-cliente}" th:object="${cliente}" method="post">
             <label>Nombre:</label>
             <input type="text" th:field="*{name}" required/><br/>
 

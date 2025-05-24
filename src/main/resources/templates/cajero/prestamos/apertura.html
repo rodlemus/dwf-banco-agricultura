@@ -11,6 +11,29 @@
         <h2>Apertura de nuevo préstamo</h2>
         <p>Formulario para abrir un nuevo préstamo para un cliente.</p>
         <!-- Aquí irá el formulario de apertura -->
+
+        <form th:action="@{/cajero/agregar-solicitud-prestamo}" th:object="${prestamo}" method="post">
+            <label>Cliente:</label>
+            <select th:field="*{user.id}" required>
+                <option th:each="cliente : ${clientes}"
+                        th:value="${cliente.id}"
+                        th:text="${cliente.name}">Cliente</option>
+            </select><br/>
+
+            <label>Monto solicitado:</label>
+            <input type="number" th:field="*{amountRequested}" step="0.01" required/><br/>
+
+            <label>Tasa de interés (%):</label>
+            <input type="number" th:field="*{interestRate}" step="0.01" required/><br/>
+
+            <label>Pago mensual:</label>
+            <input type="number" th:field="*{monthlyPayment}" step="0.01" required/><br/>
+
+            <label>Años para pagar:</label>
+            <input type="number" th:field="*{yearsToPay}" required/><br/>
+
+            <button type="submit">Solicitar préstamo</button>
+        </form>
     </section>
 </div>
 </body>
