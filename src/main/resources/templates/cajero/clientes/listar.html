@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lista de Clientes</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Clientes Registrados', userRole='CAJERO'">
+    <section>
+        <h2>Clientes registrados</h2>
+        <p>Listado de clientes registrados en el sistema.</p>
+
+        <table border="1">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>DUI</th>
+                <th>Estado</th>
+                <th>Fecha de creación</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cliente : ${clientes}">
+                <td th:text="${cliente.id}">1</td>
+                <td th:text="${cliente.name}">Nombre</td>
+                <td th:text="${cliente.email}">email@example.com</td>
+                <td th:text="${cliente.dui}">12345678-9</td>
+                <td th:text="${cliente.status}">activo</td>
+                <td th:text="${#temporals.format(cliente.createdAt, 'dd/MM/yyyy HH:mm')}">fecha</td>
+            </tr>
+            </tbody>
+        </table>
+
+        <br/>
+        <a th:href="@{/clientes/nuevo}">Registrar nuevo cliente</a>
+    </section>
+</div>
+</body>
+</html>

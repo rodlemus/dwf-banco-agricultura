@@ -10,7 +10,23 @@
     <section>
         <h2>Registrar nuevo cliente</h2>
         <p>Formulario para registrar un nuevo cliente.</p>
-        <!-- Aquí irá el formulario de registro -->
+
+        <!-- Formulario de registro -->
+        <form th:action="@{/clientes/guardar-cliente}" th:object="${cliente}" method="post">
+            <label>Nombre:</label>
+            <input type="text" th:field="*{name}" required/><br/>
+
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" required/><br/>
+
+            <label>DUI:</label>
+            <input type="text" th:field="*{dui}" required/><br/>
+
+            <label>Contraseña:</label>
+            <input type="password" th:field="*{password}" required/><br/>
+
+            <button type="submit">Registrar</button>
+        </form>
     </section>
 </div>
 </body>
