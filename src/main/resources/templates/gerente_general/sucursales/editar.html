@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Sucursal</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+
+<h2>Editar Sucursal</h2>
+
+<form th:action="@{/gerente-general/sucursales/actualizar}" th:object="${sucursal}" method="post">
+    <input type="hidden" th:field="*{id}" />
+
+    <label for="name">Nombre:</label>
+    <input type="text" id="name" th:field="*{name}" required /><br><br>
+
+    <label for="address">Dirección:</label>
+    <input type="text" id="address" th:field="*{location}" required /><br><br>
+
+    <button type="submit">Guardar Cambios</button>
+</form>
+
+<br>
+<a th:href="@{/gerente-general/sucursales}">Volver a la lista</a>
+
+</body>
+</html>

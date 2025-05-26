@@ -11,6 +11,16 @@
         <h2>Registro de nueva sucursal</h2>
         <p>Formulario para agregar una nueva sucursal bancaria.</p>
         <!-- Aquí irá el formulario de nueva sucursal -->
+
+        <form th:action="@{/gerente-general/guardar-sucursal}" th:object="${branch}" method="post">
+            <label for="name">Nombre de la sucursal:</label>
+            <input type="text" id="name" th:field="*{name}" required /><br/><br/>
+
+            <label for="address">Dirección:</label>
+            <input type="text" id="address" th:field="*{location}" required /><br/><br/>
+
+            <button type="submit">Guardar Sucursal</button>
+        </form>
     </section>
 </div>
 </body>
