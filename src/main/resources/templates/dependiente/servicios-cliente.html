@@ -11,7 +11,30 @@
     <section>
         <h2>Atención al Cliente</h2>
         <p>Aquí podrás buscar y atender a los clientes del banco.</p>
-        <!-- Contenido futuro: formulario de búsqueda, detalles del cliente, acciones permitidas -->
+
+        <div>
+            <form th:action="@{/dependiente/atender-cliente/buscar}" method="post">
+                <label for="dui">Buscar cliente por DUI:</label>
+                <input type="text" name="dui" id="dui" required />
+                <button type="submit">Buscar</button>
+            </form>
+        </div>
+
+        <div th:if="${cliente}">
+            <h3>Cliente: <span th:text="${cliente.name}"></span></h3>
+
+            <ul>
+                <li><a th:href="@{/dependiente/abrir-cuenta(dui=${cliente.dui})}">Aperturar cuenta bancaria</a></li>
+                <li><a th:href="@{/dependiente/abrir-prestamo(dui=${cliente.dui})}">Aperturar préstamo</a></li>
+                <li><a th:href="@{/dependiente/estado-cuenta(dui=${cliente.dui})}">Consultar estado de cuenta</a></li>
+                <li><a th:href="@{/dependiente/movimientos(dui=${cliente.dui})}">Registrar depósito/retiro</a></li>
+                <li><a th:href="@{/dependiente/actualizar-cliente(dui=${cliente.dui})}">Actualizar datos del cliente</a></li>
+            </ul>
+        </div>
+
+        <div th:if="${error}">
+            <p style="color: red;" th:text="${error}"></p>
+        </div>
     </section>
 </div>
 </body>

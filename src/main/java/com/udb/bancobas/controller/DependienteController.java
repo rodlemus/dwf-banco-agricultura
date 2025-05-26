@@ -29,9 +29,20 @@ public class DependienteController {
     private final BankAccountRepository bankAccountRepository;
     private final LoanRepository loanRepository;
 
-    @GetMapping("/atender")
+    @GetMapping("/atender-cliente")
     public String atenderCliente(Model model) {
         model.addAttribute("userRole", "DEPENDIENTE");
+        return "dependiente/servicios-cliente";
+    }
+
+    @PostMapping("/atender-cliente/buscar")
+    public String buscarClientePorDui(@RequestParam String dui, Model model) {
+        Optional<User> clienteOpt = userService.getUserByDuiAndRole(dui, User.Role.cliente);
+        if (clienteOpt.isPresent()) {
+            model.addAttribute("cliente", clienteOpt.get());
+        } else {
+            model.addAttribute("error", "Cliente no encontrado");
+        }
         return "dependiente/servicios-cliente";
     }
 
