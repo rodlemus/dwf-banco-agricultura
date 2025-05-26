@@ -9,8 +9,26 @@
 <div th:replace="layout/base :: baseLayout(~{::section})"
      th:with="pageTitle='Mis movimientos', userRole='CLIENTE'">
     <section>
-        <h2>Movimientos de tus cuentas</h2>
+        <h2>Movimientos de la cuenta: <span th:text="${cuenta.id}"></span> </h2>
         <p>Aquí se mostrarán los movimientos bancarios del cliente.</p>
+        <table>
+            <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="mov : ${movimientos}">
+                <td th:text="${mov.type}"></td>
+                <td th:text="${mov.amount}"></td>
+                <td th:text="${#temporals.format(mov.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
+            </tr>
+            </tbody>
+        </table>
+
+        <a th:href="@{/cliente/cuentas}">Volver a mis cuentas</a>
     </section>
 </div>
 </body>

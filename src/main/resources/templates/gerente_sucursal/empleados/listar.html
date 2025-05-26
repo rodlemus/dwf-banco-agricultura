@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Lista de Empleados</title>
+    <meta charset="UTF-8">
+</head>
+<body>
+<h1>Empleados Registrados</h1>
+
+<table border="1">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Nombre</th>
+        <th>Email</th>
+        <th>DUI</th>
+        <th>Rol</th>
+        <th>Sucursal</th>
+        <th>Estado</th>
+        <th>Acciones</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="empleado : ${empleados}">
+        <td th:text="${empleado.id}">1</td>
+        <td th:text="${empleado.name}">Juan Pérez</td>
+        <td th:text="${empleado.email}">juan@example.com</td>
+        <td th:text="${empleado.dui}">12345678-9</td>
+        <td th:text="${empleado.role}">cajero</td>
+        <td th:text="${empleado.branch?.name}">Sucursal Centro</td>
+        <td th:text="${empleado.status}">activo</td>
+        <td>
+            <a th:href="@{'/gerente-sucursal/empleados/editar/' + ${empleado.id}}" class="btn btn-warning btn-sm">Editar</a>
+            <form th:action="@{'/gerente-sucursal/empleados/eliminar/' + ${empleado.id}}" method="post" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este empleado?')">Eliminar</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

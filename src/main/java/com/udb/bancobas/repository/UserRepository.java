@@ -20,6 +20,8 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     // Buscar todos los usuarios por rol
     List<User> findByRole(User.Role role);
 
+    List<User> findByRoleIn(List<User.Role> roles);
+
     // Buscar usuario por DUI y Rol
     Optional<User> findByDuiAndRole(String dui, User.Role role);
 

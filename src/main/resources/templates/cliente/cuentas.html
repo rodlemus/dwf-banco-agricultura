@@ -10,6 +10,26 @@
     <section>
         <h2>Mis cuentas bancarias</h2>
         <p>Aquí se listarán las cuentas del cliente.</p>
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Saldo</th>
+                <th>Fecha de creación</th>
+                <th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="cuenta : ${cuentas}">
+                <td th:text="${cuenta.id}"></td>
+                <td th:text="${cuenta.balance}"></td>
+                <td th:text="${#temporals.format(cuenta.createdAt, 'dd/MM/yyyy')}"></td>
+                <td>
+                    <a th:href="@{'/cliente/movimientos'(cuentaId=${cuenta.id})}">Ver movimientos</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </section>
 </div>
 </body>

@@ -11,6 +11,34 @@
         <h2>Registrar nuevo empleado</h2>
         <p>Formulario para registrar un nuevo empleado.</p>
         <!-- Aquí irá el formulario de registro -->
+        <form th:action="@{/gerente-sucursal/registrar-empleado-nuevo}" method="post" th:object="${empleado}">
+            <label>Nombre:</label>
+            <input type="text" th:field="*{name}" required/><br/>
+
+            <label>Email:</label>
+            <input type="email" th:field="*{email}" required/><br/>
+
+            <label>Contraseña:</label>
+            <input type="password" th:field="*{password}" required/><br/>
+
+            <label>DUI:</label>
+            <input type="text" th:field="*{dui}" maxlength="10" required/><br/>
+
+            <label>Salario:</label>
+            <input type="number" th:field="*{salary}" step="0.01" required/><br/>
+
+            <label>Rol:</label>
+            <select th:field="*{role}" required>
+                <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol}"></option>
+            </select><br/>
+
+            <label>Sucursal:</label>
+            <select th:field="*{branch.id}" required>
+                <option th:each="sucursal : ${sucursales}" th:value="${sucursal.id}" th:text="${sucursal.name}"></option>
+            </select><br/>
+
+            <button type="submit">Registrar</button>
+        </form>
     </section>
 </div>
 </body>

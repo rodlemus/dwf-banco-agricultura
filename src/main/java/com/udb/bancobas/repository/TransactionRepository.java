@@ -1,5 +1,6 @@
 package com.udb.bancobas.repository;
 
+import com.udb.bancobas.model.BankAccount;
 import com.udb.bancobas.model.Transaction;
 import com.udb.bancobas.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,4 +19,7 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
 
     // Filtrar por tipo de transacción (deposito, retiro, transferencia)
     List<Transaction> findByType(Transaction.Type type);
+
+    List<Transaction> findByAccount(BankAccount account);
+
 }

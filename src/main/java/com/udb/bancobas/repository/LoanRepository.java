@@ -1,5 +1,6 @@
 package com.udb.bancobas.repository;
 
+import com.udb.bancobas.model.Branch;
 import com.udb.bancobas.model.Loan;
 import com.udb.bancobas.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -23,4 +24,6 @@ public interface  LoanRepository extends JpaRepository<Loan, Integer> {
 
     // Buscar préstamos aprobados por un usuario específico (por objeto User)
     List<Loan> findByApprovedBy(User approvedBy);
+
+    List<Loan> findByStatusAndUser_Branch(Loan.Status status, Branch branch);
 }

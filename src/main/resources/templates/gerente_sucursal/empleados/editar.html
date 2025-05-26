@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Empleado</title>
+</head>
+<body>
+<h2>Editar Empleado</h2>
+<form th:action="@{'/gerente-sucursal/empleados/editar/' + ${empleado.id}}" th:object="${empleado}" method="post">
+    <label>Nombre:</label>
+    <input type="text" th:field="*{name}" required />
+
+    <label>Email:</label>
+    <input type="email" readonly th:field="*{email}" required />
+
+    <label>DUI:</label>
+    <input type="text" readonly th:field="*{dui}" required />
+
+    <label>Sucursal:</label>
+    <select th:field="*{branch.id}" required>
+        <option th:each="sucursal : ${sucursales}" th:value="${sucursal.id}" th:text="${sucursal.name}"></option>
+    </select>
+
+    <label>Rol:</label>
+    <select th:field="*{role}" required>
+        <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol}"></option>
+    </select>
+
+    <label>Salario:</label>
+    <input type="number" th:field="*{salary}" step="0.01" min="0" />
+
+    <label>Estado:</label>
+    <select th:field="*{status}">
+        <option th:each="estado : ${statuses}"
+                th:value="${estado}"
+                th:text="${estado}">
+        </option>
+    </select><br/>
+
+    <button type="submit">Guardar Cambios</button>
+</form>
+</body>
+</html>
