@@ -13,6 +13,8 @@ public interface  LoanRepository extends JpaRepository<Loan, Integer> {
     // Obtener préstamos por usuario (cliente)
     List<Loan> findByUserId(Integer userId);
 
+    List<Loan> findByUser(User user);
+
     // Obtener préstamos por estado (en_espera, aprobado, rechazado)
     List<Loan> findByStatus(Loan.Status status);
 

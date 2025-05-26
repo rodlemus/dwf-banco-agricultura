@@ -15,10 +15,13 @@ public interface UserRepository extends JpaRepository<User, Integer> {
     Optional<User> findByEmail(String email);
 
     // Buscar usuario por DUI
-    Optional<User> findByDui(String dui);
+    User findByDui(String dui);
 
     // Buscar todos los usuarios por rol
     List<User> findByRole(User.Role role);
+
+    // Buscar usuario por DUI y Rol
+    Optional<User> findByDuiAndRole(String dui, User.Role role);
 
     // Buscar usuarios por estado
     List<User> findByStatus(String status);

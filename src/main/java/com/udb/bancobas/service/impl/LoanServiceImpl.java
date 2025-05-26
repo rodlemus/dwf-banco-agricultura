@@ -60,6 +60,11 @@ public class LoanServiceImpl implements LoanService {
     }
 
     @Override
+    public List<Loan> getLoansByUser(User user) {
+        return loanRepository.findByUser(user);
+    }
+
+    @Override
     public List<Loan> getLoansByStatus(Loan.Status status) {
         return loanRepository.findByStatus(status);
     }

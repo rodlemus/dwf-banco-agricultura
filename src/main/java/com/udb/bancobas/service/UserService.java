@@ -13,4 +13,5 @@ public interface UserService {
     void deleteUser(Long id);
     List<User> getUsersByRole(String role);
     Optional<User> getUserByEmail(String email);
+    Optional<User> getUserByDuiAndRole(String dui, User.Role role);
 }

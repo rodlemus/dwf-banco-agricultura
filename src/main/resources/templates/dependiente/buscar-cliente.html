@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Buscar Cliente</title>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Buscar Cliente', userRole='DEPENDIENTE'">
+
+    <section>
+        <h2>Buscar Cliente</h2>
+        <form th:action="@{/dependiente/buscar-cliente}" method="post">
+            <label for="dui">Ingrese DUI del cliente:</label>
+            <input type="text" name="dui" id="dui" required />
+            <button type="submit">Buscar</button>
+        </form>
+
+        <!-- Mostrar mensaje de error si no se encontró -->
+        <div th:if="${error}" style="color: red; margin-top: 10px;">
+            <p th:text="${error}"></p>
+        </div>
+
+        <!-- Información del cliente encontrado -->
+        <div th:if="${cliente}">
+            <h3>Información del Cliente</h3>
+            <p><strong>Nombre:</strong> <span th:text="${cliente.name}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${cliente.email}"></span></p>
+            <p><strong>DUI:</strong> <span th:text="${cliente.dui}"></span></p>
+
+            <!-- Cuentas Bancarias -->
+            <h3>Cuentas Bancarias</h3>
+            <div th:if="${cuentas != null and !cuentas.isEmpty()}">
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>Número de cuenta</th>
+                        <th>Saldo</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="cuenta : ${cuentas}">
+                        <td th:text="${cuenta.id}"></td>
+                        <td th:text="${cuenta.balance}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${cuentas == null or cuentas.isEmpty()}">
+                <p>Este cliente no tiene cuentas bancarias registradas.</p>
+            </div>
+
+            <!-- Préstamos -->
+            <h3>Préstamos</h3>
+            <div th:if="${prestamos != null and !prestamos.isEmpty()}">
+                <table border="1">
+                    <thead>
+                    <tr>
+                        <th>Monto solicitado</th>
+                        <th>Interés (%)</th>
+                        <th>Pago mensual</th>
+                        <th>Años a pagar</th>
+                        <th>Estado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="prestamo : ${prestamos}">
+                        <td th:text="${prestamo.amountRequested}"></td>
+                        <td th:text="${prestamo.interestRate}"></td>
+                        <td th:text="${prestamo.monthlyPayment}"></td>
+                        <td th:text="${prestamo.yearsToPay}"></td>
+                        <td th:text="${prestamo.status}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div th:if="${prestamos == null or prestamos.isEmpty()}">
+                <p>Este cliente no tiene préstamos registrados.</p>
+            </div>
+        </div>
+
+    </section>
+</div>
+</body>
+</html>

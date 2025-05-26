@@ -12,6 +12,8 @@ public interface LoanService {
 
     Optional<Loan> getLoanById(Integer id);
 
+    List<Loan> getLoansByUser(User user);
+
     Loan createLoan(Loan loan);
 
     Loan updateLoan(Integer id, Loan loan);
