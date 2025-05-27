@@ -5,23 +5,27 @@
             <li><a th:href="@{/home/dashboard}">Inicio</a></li>
 
             <!-- Cliente -->
-            <li th:if="${role == 'CLIENTE'}"><a th:href="@{/cuentas}">Mis cuentas</a></li>
-            <li th:if="${role == 'CLIENTE'}"><a th:href="@{/movimientos}">Movimientos</a></li>
+            <li th:if="${role == 'cliente'}"><a th:href="@{/cliente/cuentas}">Mis cuentas</a></li>
 
             <!-- Dependiente -->
-            <li th:if="${role == 'DEPENDIENTE'}"><a th:href="@{/servicios-cliente}">Atender cliente</a></li>
+            <li th:if="${role == 'dependiente'}"><a th:href="@{/dependiente/atender-cliente}">Atender cliente</a></li>
+            <li th:if="${role == 'dependiente'}"><a th:href="@{/dependiente/buscar-cliente}">Información del Cliente</a></li>
+
 
             <!-- Cajero -->
-            <li th:if="${role == 'CAJERO'}"><a th:href="@{/clientes/nuevo}">Registrar cliente</a></li>
-            <li th:if="${role == 'CAJERO'}"><a th:href="@{/prestamos/apertura}">Aperturar préstamo</a></li>
+            <li th:if="${role == 'cajero'}"><a th:href="@{/cajero/clientes}">Clientes</a></li>
+            <li th:if="${role == 'cajero'}"><a th:href="@{/cajero/prestamos}">Préstamos</a></li>
 
             <!-- Gerente de sucursal -->
-            <li th:if="${role == 'GERENTE_SUCURSAL'}"><a th:href="@{/empleados/nuevo}">Nuevo empleado</a></li>
-            <li th:if="${role == 'GERENTE_SUCURSAL'}"><a th:href="@{/prestamos/revision}">Revisar préstamos</a></li>
+            <li th:if="${role == 'gerente_sucursal'}"><a th:href="@{/gerente-sucursal/registrar-empleado}">Nuevo empleado</a></li>
+            <li th:if="${role == 'gerente_sucursal'}"><a th:href="@{/gerente-sucursal/revisar-prestamos}">Revisar préstamos</a></li>
 
             <!-- Gerente general -->
-            <li th:if="${role == 'GERENTE_GENERAL'}"><a th:href="@{/sucursales/nueva}">Nueva sucursal</a></li>
-            <li th:if="${role == 'GERENTE_GENERAL'}"><a th:href="@{/acciones-personal}">Acciones de personal</a></li>
+            <li th:if="${role == 'gerente_general'}"><a th:href="@{/gerente-general/sucursales}">Nueva sucursal</a></li>
+            <li th:if="${role == 'gerente_general'}"><a th:href="@{/gerente-general/acciones-personal}">Acciones de personal</a></li>
         </ul>
+        <div>
+            <a th:href="@{/auth/logout}">Cerrar sesión</a>
+        </div>
     </nav>
 </div>

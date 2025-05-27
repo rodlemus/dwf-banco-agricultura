@@ -5,7 +5,7 @@ import com.udb.bancobas.model.User;
 import com.udb.bancobas.model.Transaction;
 import com.udb.bancobas.repository.BankAccountRepository;
 import com.udb.bancobas.repository.TransactionRepository;
-import com.udb.bancobas.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,37 +19,58 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ClienteController {
 
-    private final UserRepository userRepository;
     private final BankAccountRepository bankAccountRepository;
     private final TransactionRepository transactionRepository;
 
-    // Creamos un metodo que guarde un cliente de prueba
-    private User clientePrueba() {
-        return userRepository.findByDui("66778899-0");
-    }
-
     @GetMapping("/cuentas")
-    public String cuentas(Model model) {
-        User cliente = clientePrueba();
+    public String cuentas(Model model, HttpSession session) {
+        User cliente = (User) session.getAttribute("currentUser");
+
+        if (cliente == null || cliente.getRole() != User.Role.cliente) {
+            return "redirect:/auth/login";
+        }
+
         model.addAttribute("pageTitle", "Mis cuentas");
-        model.addAttribute("userRole", "CLIENTE");
+        model.addAttribute("userRole", "cliente");
+        model.addAttribute("userName", cliente.getName());
 
         List<BankAccount> cuentas = bankAccountRepository.findByUser(cliente);
         model.addAttribute("cuentas", cuentas);
-        // Aquí luego cargarás las cuentas del cliente
+
         return "cliente/cuentas";
     }
 
     @GetMapping("/movimientos")
-    public String movimientos(@RequestParam("cuentaId") Long cuentaId, Model model) {
+    public String movimientos(@RequestParam("cuentaId") Long cuentaId,
+                              Model model, HttpSession session) {
+        User cliente = (User) session.getAttribute("currentUser");
+
+        if (cliente == null || cliente.getRole() != User.Role.cliente) {
+            return "redirect:/auth/login";
+        }
+
         Optional<BankAccount> cuentaOpt = bankAccountRepository.findById(cuentaId);
+
         if (cuentaOpt.isPresent()) {
-            List<Transaction> movimientos = transactionRepository.findByAccount(cuentaOpt.get());
-            model.addAttribute("cuenta", cuentaOpt.get());
+            BankAccount cuenta = cuentaOpt.get();
+
+            // Validar que la cuenta pertenezca al cliente autenticado
+            if (!cuenta.getUser().getId().equals(cliente.getId())) {
+                model.addAttribute("error", "No tienes permiso para ver esta cuenta.");
+                return "cliente/movimientos";
+            }
+
+            List<Transaction> movimientos = transactionRepository.findByAccount(cuenta);
+            model.addAttribute("cuenta", cuenta);
             model.addAttribute("movimientos", movimientos);
+
         } else {
             model.addAttribute("error", "Cuenta no encontrada.");
         }
+
+        model.addAttribute("userRole", "cliente");
+        model.addAttribute("userName", cliente.getName());
+
         return "cliente/movimientos";
     }
 
