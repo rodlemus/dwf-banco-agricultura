@@ -2,41 +2,61 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>Lista de Empleados</title>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<h1>Empleados Registrados</h1>
+<body class="bg-gray-100">
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Listar Empleados', userRole='gerente_sucursal'">
+    <section>
+        <div class="max-w-7xl mx-auto bg-white p-6 rounded shadow">
+            <h1 class="text-2xl font-bold mb-6 text-gray-800">Empleados Registrados</h1>
+            <a th:href="@{/gerente-sucursal/registrar-empleado}" class="block px-4 py-2 mb-4 rounded hover:bg-blue-700 transition inline-block">
+                Agregar nuevo empleado
+            </a>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Email</th>
-        <th>DUI</th>
-        <th>Rol</th>
-        <th>Sucursal</th>
-        <th>Estado</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="empleado : ${empleados}">
-        <td th:text="${empleado.id}">1</td>
-        <td th:text="${empleado.name}">Juan Pérez</td>
-        <td th:text="${empleado.email}">juan@example.com</td>
-        <td th:text="${empleado.dui}">12345678-9</td>
-        <td th:text="${empleado.role}">cajero</td>
-        <td th:text="${empleado.branch?.name}">Sucursal Centro</td>
-        <td th:text="${empleado.status}">activo</td>
-        <td>
-            <a th:href="@{'/gerente-sucursal/empleados/editar/' + ${empleado.id}}" class="btn btn-warning btn-sm">Editar</a>
-            <form th:action="@{'/gerente-sucursal/empleados/eliminar/' + ${empleado.id}}" method="post" style="display:inline;">
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de eliminar este empleado?')">Eliminar</button>
-            </form>
-        </td>
-    </tr>
-    </tbody>
-</table>
+            <div class="overflow-x-auto">
+                <table class="min-w-full border border-gray-300">
+                    <thead class="bg-gray-200">
+                    <tr>
+                        <th class="py-2 px-3 border border-gray-300 text-left text-sm font-semibold text-gray-700">ID</th>
+                        <th class="py-2 px-3 border border-gray-300 text-left text-sm font-semibold text-gray-700">Nombre</th>
+                        <th class="py-2 px-3 border border-gray-300 text-left text-sm font-semibold text-gray-700">Email</th>
+                        <th class="py-2 px-3 border border-gray-300 text-left text-sm font-semibold text-gray-700">DUI</th>
+                        <th class="py-2 px-3 border border-gray-300 text-left text-sm font-semibold text-gray-700">Rol</th>
+                        <th class="py-2 px-3 border border-gray-300 text-left text-sm font-semibold text-gray-700">Sucursal</th>
+                        <th class="py-2 px-3 border border-gray-300 text-left text-sm font-semibold text-gray-700">Estado</th>
+                        <th class="py-2 px-3 border border-gray-300 text-left text-sm font-semibold text-gray-700">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="empleado : ${empleados}" class="even:bg-gray-50 hover:bg-gray-100">
+                        <td class="py-2 px-3 border border-gray-300" th:text="${empleado.id}">1</td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${empleado.name}">Juan Pérez</td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${empleado.email}">juan@example.com</td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${empleado.dui}">12345678-9</td>
+                        <td class="py-2 px-3 border border-gray-300 capitalize" th:text="${empleado.role}">cajero</td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${empleado.branch != null ? empleado.branch.name : 'N/A'}">Sucursal Centro</td>
+                        <td class="py-2 px-3 border border-gray-300 capitalize" th:text="${empleado.status}">activo</td>
+                        <td class="py-2 px-3 border border-gray-300 flex space-x-2">
+                            <a th:href="@{'/gerente-sucursal/empleados/editar/' + ${empleado.id}}"
+                               class="bg-yellow-400 hover:bg-yellow-500 text-white px-3 py-1 rounded text-sm whitespace-nowrap">
+                                Editar
+                            </a>
+                            <form th:action="@{'/gerente-sucursal/empleados/eliminar/' + ${empleado.id}}" method="post" class="inline-flex">
+                                <button type="submit"
+                                        onclick="return confirm('¿Estás seguro de eliminar este empleado?')"
+                                        class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded text-sm whitespace-nowrap">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
 </body>
 </html>

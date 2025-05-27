@@ -1,16 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="layout/base :: head"></head>
-<body>
-<div th:replace="layout/base :: baseLayout(~{::#contenido})">
-    <!-- Aquí se renderiza el layout base y se inserta el contenido -->
+<head>
+    <meta charset="UTF-8">
+    <title>Panel de Control</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800 min-h-screen">
 
-    <!-- Este es el contenido que se pasará al fragmento -->
-    <div id="contenido">
-        <h2>Bienvenido al panel de control</h2>
-        <p>Tu rol: <span th:text="${userRole}"></span></p>
-        <p>Tu nombre: <span th:text="${userName}"></span></p>
+<div th:replace="layout/base :: baseLayout(~{::#contenido})">
+    <div id="contenido" class="max-w-3xl mx-auto mt-20 bg-white rounded-lg shadow-lg p-8 text-center">
+        <h2 class="text-3xl font-bold text-indigo-700 mb-4">Bienvenido al Panel de Control</h2>
+
+        <p class="text-lg text-gray-700">
+            <span class="font-semibold">Tu nombre:</span>
+            <span class="text-indigo-600 font-medium" th:text="${userName}"></span>
+        </p>
+
+        <p class="text-lg text-gray-700 mb-2">
+            <span class="font-semibold">Tu rol:</span>
+            <span class="text-indigo-600 font-medium" th:text="${userRole}"></span>
+        </p>
     </div>
 </div>
+
 </body>
 </html>

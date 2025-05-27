@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title th:text="${pageTitle} ?: 'BancoBAS'">BancoBAS</title>
     <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: 'BancoBAS'">BancoBAS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-<div th:fragment="baseLayout(content)">
-    <aside>
+<body class="bg-gray-100 min-h-screen text-gray-900">
+
+<div th:fragment="baseLayout(content)" class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-blue-800 text-white p-4">
         <div th:replace="layout/fragments/sidebar :: sidebar(${userRole})"></div>
     </aside>
-    <main>
+
+    <!-- Main content -->
+    <main class="flex-1 p-6 bg-white shadow-md rounded-l-lg">
         <div th:replace="${content}"></div>
     </main>
+
 </div>
+
 </body>
 </html>

@@ -3,70 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>Acciones de Personal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
 <div th:replace="layout/base :: baseLayout(~{::section})"
      th:with="pageTitle='Acciones de Personal', userRole='GERENTE_GENERAL'">
-    <section>
-        <h2>Gestión de acciones de personal</h2>
-        <p>Visualización y control de las acciones relacionadas al personal.</p>
-        <!-- Aquí irá la lógica para ver/editar/gestionar personal -->
+    <section class="p-6 max-w-7xl mx-auto">
+        <h2 class="text-2xl font-bold mb-2">Gestión de acciones de personal</h2>
+        <p class="mb-6 text-gray-600">Visualización y control de las acciones relacionadas al personal.</p>
 
-        <table border="1">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Empleado</th>
-                <th>Creado por</th>
-                <th>Tipo de Acción</th>
-                <th>Revisado por</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="accion : ${acciones}">
-                <td th:text="${accion.id}"></td>
-                <td th:text="${accion.employee.email}"></td>
-                <td th:text="${accion.createdBy.email}"></td>
-                <td th:text="${accion.actionType}"></td>
-                <td th:text="${accion.reviewedBy.name}"></td>
-                <td th:text="${#temporals.format(accion.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <div class="overflow-x-auto bg-white shadow rounded-lg">
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-100">
+                <tr>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">ID</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Empleado</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Creado por</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Tipo de Acción</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Revisado por</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Fecha</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Estado</th>
+                    <th class="px-4 py-2 text-left text-sm font-medium text-gray-700">Acciones</th>
+                </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-100">
+                <tr th:each="accion : ${acciones}" class="hover:bg-gray-50">
+                    <td class="px-4 py-2" th:text="${accion.id}"></td>
+                    <td class="px-4 py-2" th:text="${accion.employee.email}"></td>
+                    <td class="px-4 py-2" th:text="${accion.createdBy.email}"></td>
+                    <td class="px-4 py-2" th:text="${accion.actionType}"></td>
+                    <td class="px-4 py-2" th:text="${accion.reviewedBy != null ? accion.reviewedBy.name : 'Sin revisar'}"></td>
+                    <td class="px-4 py-2" th:text="${#temporals.format(accion.createdAt, 'dd/MM/yyyy HH:mm')}"></td>
 
-                <!-- Columna Estado y Acciones juntos en un solo <form> -->
-                <td colspan="2">
-                    <form th:action="@{/gerente-general/acciones-personal/actualizar}" method="post" th:id="'form-' + ${accion.id}">
-                        <input type="hidden" name="id" th:value="${accion.id}" />
+                    <!-- Estado y botón en el mismo formulario -->
+                    <td class="px-4 py-2" colspan="2">
+                        <form th:action="@{/gerente-general/acciones-personal/actualizar}" method="post" th:id="'form-' + ${accion.id}" class="flex items-center space-x-2">
+                            <input type="hidden" name="id" th:value="${accion.id}" />
 
-                        <select name="status"
-                                th:id="'select-' + ${accion.id}"
-                                th:onchange="'enableButton(' + ${accion.id} + ')'">
-                            <option th:each="estado : ${statusValues}"
-                                    th:value="${estado}"
-                                    th:text="${#strings.capitalize(estado.name())}"
-                                    th:selected="${accion.status == estado}">
-                            </option>
-                        </select>
+                            <select name="status"
+                                    th:id="'select-' + ${accion.id}"
+                                    th:onchange="'enableButton(' + ${accion.id} + ')'"
+                                    class="border-gray-300 rounded-md shadow-sm text-sm focus:ring-indigo-500 focus:border-indigo-500">
+                                <option th:each="estado : ${statusValues}"
+                                        th:value="${estado}"
+                                        th:text="${#strings.capitalize(estado.name())}"
+                                        th:selected="${accion.status == estado}">
+                                </option>
+                            </select>
 
-                        <button type="submit" th:id="'btn-' + ${accion.id}" disabled>Actualizar</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                            <button type="submit"
+                                    th:id="'btn-' + ${accion.id}"
+                                    disabled
+                                    class="px-3 py-1 bg-indigo-600 text-white text-sm font-medium rounded disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-700 transition">
+                                Actualizar
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
 
-        <br>
-        <a th:href="@{/gerente-general}">Volver al panel principal</a>
+        <div class="mt-6">
+            <a th:href="@{/home/dashboard}" class="text-indigo-600 hover:underline text-sm">← Volver al panel principal</a>
+        </div>
     </section>
 </div>
 
 <script>
-    // Estado original de cada select, para comparar y habilitar el botón solo si cambió
     const originalStatuses = {};
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Guardar estado original de cada select
         document.querySelectorAll('select[name="status"]').forEach(select => {
             originalStatuses[select.id] = select.value;
         });
@@ -75,13 +82,7 @@
     function enableButton(id) {
         const select = document.getElementById('select-' + id);
         const button = document.getElementById('btn-' + id);
-
-        // Habilitar el botón solo si el valor actual difiere del original
-        if (select.value !== originalStatuses[select.id]) {
-            button.disabled = false;
-        } else {
-            button.disabled = true;
-        }
+        button.disabled = select.value === originalStatuses[select.id];
     }
 </script>
 </body>

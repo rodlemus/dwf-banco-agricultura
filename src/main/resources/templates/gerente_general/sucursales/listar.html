@@ -3,35 +3,47 @@
 <head>
     <title>Lista de Sucursales</title>
     <meta charset="UTF-8">
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Listar Sucursales', userRole='GERENTE_GENERAL'">
+    <section>
+        <div class="max-w-6xl mx-auto p-6">
+            <h2 class="text-2xl font-bold mb-4">Lista de Sucursales</h2>
+            <a th:href="@{/gerente-general/nueva-sucursal}"
+               class="inline-block bg-indigo-600 mb-4 text-white px-4 py-2 rounded-md text-sm font-medium hover:bg-indigo-700 transition">
+                Agregar nueva sucursal
+            </a>
 
-<h2>Lista de Sucursales</h2>
-
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Dirección</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="sucursal : ${sucursales}">
-        <td th:text="${sucursal.id}"></td>
-        <td th:text="${sucursal.name}"></td>
-        <td th:text="${sucursal.location}"></td>
-
-        <td>
-            <a th:href="@{'/gerente-general/sucursales/editar/' + ${sucursal.id}}">Editar</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
-
-<br/>
-<a th:href="@{/gerente-general/nueva-sucursal}">Agregar nueva sucursal</a>
+            <div class="overflow-x-auto bg-white shadow-md rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">ID</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Nombre</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Dirección</th>
+                        <th class="px-4 py-2 text-left text-sm font-semibold text-gray-700">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-100">
+                    <tr th:each="sucursal : ${sucursales}" class="hover:bg-gray-50">
+                        <td class="px-4 py-2" th:text="${sucursal.id}"></td>
+                        <td class="px-4 py-2" th:text="${sucursal.name}"></td>
+                        <td class="px-4 py-2" th:text="${sucursal.location}"></td>
+                        <td class="px-4 py-2">
+                            <a th:href="@{'/gerente-general/sucursales/editar/' + ${sucursal.id}}"
+                               class="text-indigo-600 hover:underline text-sm font-medium">
+                                Editar
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
 
 </body>
 </html>

@@ -3,74 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <title>Revisar Préstamos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
+<body class="bg-gray-100">
 <div th:replace="layout/base :: baseLayout(~{::section})"
      th:with="pageTitle='Revisar Préstamos', userRole='GERENTE_SUCURSAL'">
     <section>
-        <h2>Revisión de solicitudes de préstamos</h2>
-        <!-- <p>Listado de préstamos pendientes de aprobación.</p> -->
-        <p>Lista de préstamos registrados por clientes.</p>
-        <!-- Aquí se listarán los préstamos pendientes -->
+        <div class="max-w-7xl mx-auto bg-white p-6 rounded shadow">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Revisión de solicitudes de préstamos</h2>
+            <p class="mb-6 text-gray-600">Lista de préstamos registrados por clientes.</p>
 
-        <table border="1">
-            <thead>
-            <tr>
-                <th>ID</th>
-                <th>Cliente</th>
-                <th>DUI</th>
-                <th>Monto Solicitado $</th>
-                <th>Interés (%)</th>
-                <th>Pago Mensual $</th>
-                <th>Años</th>
-                <th>Creado por</th>
-                <th>Fecha</th>
-                <th>Estado</th>
-                <th>Acciones</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="prestamo : ${prestamos}">
-                <td th:text="${prestamo.id}"></td>
-                <td th:text="${prestamo.user.name}"></td>
-                <td th:text="${prestamo.user.dui}"></td>
-                <td th:text="${prestamo.amountRequested}"></td>
-                <td th:text="${prestamo.interestRate}"></td>
-                <td th:text="${prestamo.monthlyPayment}"></td>
-                <td th:text="${prestamo.yearsToPay}"></td>
-                <th th:text="${prestamo.createdBy.email}"></th>
-                <td th:text="${#temporals.format(prestamo.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+            <div class="overflow-x-auto">
+                <table class="min-w-full border border-gray-300">
+                    <thead class="bg-gray-200">
+                    <tr>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">ID</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Cliente</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">DUI</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Monto $</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Interés %</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Mensualidad $</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Años</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Creado por</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Fecha</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Estado</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="prestamo : ${prestamos}" class="even:bg-gray-50 hover:bg-gray-100">
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.id}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.user.name}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.user.dui}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.amountRequested}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.interestRate}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.monthlyPayment}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.yearsToPay}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.createdBy.email}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${#temporals.format(prestamo.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
 
-                <!-- Columna Estado y Acciones juntos en un solo <form> -->
-                <td colspan="2">
-                    <form th:action="@{/gerente-sucursal/prestamos/actualizar-status}" method="post" th:id="'form-' + ${prestamo.id}">
-                        <input type="hidden" name="id" th:value="${prestamo.id}" />
+                        <td class="py-2 px-3 border border-gray-300 capitalize" th:text="${prestamo.status}"></td>
+                        <td class="py-2 px-3 border border-gray-300">
+                            <form th:action="@{/gerente-sucursal/prestamos/actualizar-status}" method="post" th:id="'form-' + ${prestamo.id}" class="flex space-x-2 items-center">
+                                <input type="hidden" name="id" th:value="${prestamo.id}" />
 
-                        <select name="status"
-                                th:id="'select-' + ${prestamo.id}"
-                                th:onchange="'enableButton(' + ${prestamo.id} + ')'">
-                            <option th:each="estado : ${statusValues}"
-                                    th:value="${estado}"
-                                    th:text="${#strings.capitalize(estado.name())}"
-                                    th:selected="${prestamo.status == estado}">
-                            </option>
-                        </select>
+                                <select name="status"
+                                        th:id="'select-' + ${prestamo.id}"
+                                        th:onchange="'enableButton(' + ${prestamo.id} + ')'"
+                                        class="border-gray-300 rounded px-2 py-1 text-sm">
+                                    <option th:each="estado : ${statusValues}"
+                                            th:value="${estado}"
+                                            th:text="${#strings.capitalize(estado.name())}"
+                                            th:selected="${prestamo.status == estado}">
+                                    </option>
+                                </select>
 
-                        <button type="submit" th:id="'btn-' + ${prestamo.id}" disabled>Actualizar</button>
-                    </form>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                                <button type="submit"
+                                        th:id="'btn-' + ${prestamo.id}"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded disabled:opacity-50"
+                                        disabled>
+                                    Actualizar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </section>
 </div>
 
 <script>
-    // Estado original de cada select, para comparar y habilitar el botón solo si cambió
     const originalStatuses = {};
 
     document.addEventListener('DOMContentLoaded', () => {
-        // Guardar estado original de cada select
         document.querySelectorAll('select[name="status"]').forEach(select => {
             originalStatuses[select.id] = select.value;
         });
@@ -80,7 +87,6 @@
         const select = document.getElementById('select-' + id);
         const button = document.getElementById('btn-' + id);
 
-        // Habilitar el botón solo si el valor actual difiere del original
         if (select.value !== originalStatuses[select.id]) {
             button.disabled = false;
         } else {
