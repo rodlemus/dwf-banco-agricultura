@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <title>Atender Cliente</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Atender Cliente', userRole='DEPENDIENTE'">
+
+    <section class="max-w-3xl mx-auto p-6">
+        <h2 class="text-3xl font-semibold mb-6 text-gray-800">Atención al Cliente</h2>
+        <p class="mb-6 text-gray-600">Aquí podrás buscar y atender a los clientes del banco.</p>
+
+        <div class="mb-6">
+            <form th:action="@{/dependiente/atender-cliente/buscar}" method="post" class="flex flex-col sm:flex-row items-center gap-4">
+                <label for="dui" class="block font-medium text-gray-700">Buscar cliente por DUI:</label>
+                <input type="text" name="dui" id="dui" required
+                       class="border border-gray-300 rounded px-3 py-2 flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                <button type="submit"
+                        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition">
+                    Buscar
+                </button>
+            </form>
+        </div>
+
+        <div th:if="${error}" class="mb-6 text-red-600 font-semibold">
+            <p th:text="${error}"></p>
+        </div>
+
+        <div th:if="${cliente}" class="bg-white shadow rounded p-5">
+            <h3 class="text-xl font-semibold mb-4 text-gray-700">Cliente: <span th:text="${cliente.name}" class="text-gray-900"></span></h3>
+
+            <ul class="list-disc list-inside space-y-2 text-blue-600">
+                <li><a th:href="@{/dependiente/abrir-cuenta(dui=${cliente.dui})}" class="hover:underline">Aperturar cuenta bancaria</a></li>
+                <li><a th:href="@{/dependiente/abrir-prestamo(dui=${cliente.dui})}" class="hover:underline">Aperturar préstamo</a></li>
+                <li><a th:href="@{/dependiente/estado-cuenta(dui=${cliente.dui})}" class="hover:underline">Consultar estado de cuenta</a></li>
+                <li><a th:href="@{/dependiente/movimientos(dui=${cliente.dui})}" class="hover:underline">Registrar depósito/retiro</a></li>
+                <li><a th:href="@{/dependiente/actualizar-cliente(dui=${cliente.dui})}" class="hover:underline">Actualizar datos del cliente</a></li>
+            </ul>
+        </div>
+    </section>
+</div>
+</body>
+</html>

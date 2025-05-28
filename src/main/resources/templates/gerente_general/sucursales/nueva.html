@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Nueva Sucursal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Nueva Sucursal', userRole='GERENTE_GENERAL'">
+
+    <section class="max-w-xl mx-auto p-6 bg-white shadow-md rounded-lg mt-8">
+        <h2 class="text-2xl font-bold mb-2">Registro de nueva sucursal</h2>
+        <p class="mb-6 text-gray-600">Formulario para agregar una nueva sucursal bancaria.</p>
+
+        <form th:action="@{/gerente-general/guardar-sucursal}" th:object="${branch}" method="post" class="space-y-4">
+            <div>
+                <label for="name" class="block text-sm font-medium text-gray-700">Nombre de la sucursal:</label>
+                <input type="text" id="name" th:field="*{name}" required
+                       class="mt-1 px-4 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+            </div>
+
+            <div>
+                <label for="address" class="block text-sm font-medium text-gray-700">Dirección:</label>
+                <input type="text" id="address" th:field="*{location}" required
+                       class="mt-1 px-4 py-2 block w-full rounded-md border-gray-300 shadow-sm focus:ring-indigo-500 focus:border-indigo-500"/>
+            </div>
+
+            <div class="pt-4">
+                <button type="submit"
+                        class="w-full bg-indigo-600 text-white py-2 px-4 rounded-md hover:bg-indigo-700 transition">
+                    Guardar Sucursal
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-6 text-center">
+            <a th:href="@{/gerente-general/sucursales}"
+               class="text-indigo-600 hover:underline transition">← Volver a la lista</a>
+        </div>
+    </section>
+</div>
+
+</body>
+</html>

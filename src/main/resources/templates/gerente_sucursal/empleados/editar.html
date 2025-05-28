@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Editar Empleado</title>
+    <meta charset="UTF-8" />
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Listar Empleados', userRole='GERENTE_SUCURSAL'">
+    <section>
+        <div class="max-w-lg mx-auto bg-white p-6 rounded shadow">
+            <h2 class="text-2xl font-bold mb-6 text-gray-800">Editar Empleado</h2>
+
+            <form th:action="@{'/gerente-sucursal/empleados/editar/' + ${empleado.id}}" th:object="${empleado}" method="post" class="space-y-5">
+
+                <div>
+                    <label class="block font-semibold mb-1 text-gray-700">Nombre:</label>
+                    <input type="text" th:field="*{name}" required
+                           class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-1 text-gray-700">Email:</label>
+                    <input type="email" readonly th:field="*{email}" required
+                           class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 cursor-not-allowed" />
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-1 text-gray-700">DUI:</label>
+                    <input type="text" readonly th:field="*{dui}" required
+                           class="w-full bg-gray-100 border border-gray-300 rounded px-3 py-2 cursor-not-allowed" />
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-1 text-gray-700">Sucursal:</label>
+                    <select th:field="*{branch.id}" required
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="" disabled>Seleccione una sucursal</option>
+                        <option th:each="sucursal : ${sucursales}" th:value="${sucursal.id}" th:text="${sucursal.name}"></option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-1 text-gray-700">Rol:</label>
+                    <select th:field="*{role}" required
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="" disabled>Seleccione un rol</option>
+                        <option th:each="rol : ${roles}" th:value="${rol}" th:text="${rol}"></option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-1 text-gray-700">Salario:</label>
+                    <input type="number" th:field="*{salary}" step="0.01" min="0"
+                           class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" />
+                </div>
+
+                <div>
+                    <label class="block font-semibold mb-1 text-gray-700">Estado:</label>
+                    <select th:field="*{status}"
+                            class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500">
+                        <option value="" disabled>Seleccione un estado</option>
+                        <option th:each="estado : ${statuses}" th:value="${estado}" th:text="${estado}"></option>
+                    </select>
+                </div>
+
+                <button type="submit"
+                        class="bg-green-600 hover:bg-green-700 text-white font-semibold px-5 py-2 rounded focus:outline-none focus:ring-2 focus:ring-green-500">
+                    Guardar Cambios
+                </button>
+            </form>
+
+            <div class="mt-6 text-center">
+                <a th:href="@{/gerente-sucursal/empleados}"
+                   class="text-indigo-600 hover:underline transition">← Volver a la lista</a>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Mis cuentas</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+<div th:replace="layout/base :: baseLayout(~{::section})" th:with="pageTitle='Mis cuentas', userRole='CLIENTE'">
+    <section class="max-w-4xl mx-auto p-6">
+        <h2 class="text-3xl font-semibold text-gray-800 mb-4">Mis cuentas bancarias</h2>
+        <p class="text-gray-600 mb-6">Aquí se listarán las cuentas del cliente.</p>
+
+        <div class="overflow-x-auto">
+            <table class="min-w-full border border-gray-300 rounded-md">
+                <thead class="bg-blue-700 text-white">
+                <tr>
+                    <th class="py-2 px-4 border-r border-blue-600">ID</th>
+                    <th class="py-2 px-4 border-r border-blue-600">Saldo</th>
+                    <th class="py-2 px-4 border-r border-blue-600">Fecha de creación</th>
+                    <th class="py-2 px-4">Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="cuenta : ${cuentas}" class="odd:bg-white even:bg-gray-50 hover:bg-blue-100 transition">
+                    <td class="py-2 px-4 border border-blue-300" th:text="${cuenta.id}"></td>
+                    <td class="py-2 px-4 border border-blue-300" th:text="${cuenta.balance}"></td>
+                    <td class="py-2 px-4 border border-blue-300" th:text="${#temporals.format(cuenta.createdAt, 'dd/MM/yyyy')}"></td>
+                    <td class="py-2 px-4 border border-blue-300">
+                        <a th:href="@{'/cliente/movimientos'(cuentaId=${cuenta.id})}"
+                           class="text-blue-600 hover:underline font-medium">Ver movimientos</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</div>
+</body>
+</html>

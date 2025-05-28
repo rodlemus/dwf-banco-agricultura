@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Revisar Préstamos</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100">
+<div th:replace="layout/base :: baseLayout(~{::section})"
+     th:with="pageTitle='Revisar Préstamos', userRole='GERENTE_SUCURSAL'">
+    <section>
+        <div class="max-w-7xl mx-auto bg-white p-6 rounded shadow">
+            <h2 class="text-2xl font-bold mb-4 text-gray-800">Revisión de solicitudes de préstamos</h2>
+            <p class="mb-6 text-gray-600">Lista de préstamos registrados por clientes.</p>
+
+            <div class="overflow-x-auto">
+                <table class="min-w-full border border-gray-300">
+                    <thead class="bg-gray-200">
+                    <tr>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">ID</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Cliente</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">DUI</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Monto $</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Interés %</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Mensualidad $</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Años</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Creado por</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Fecha</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Estado</th>
+                        <th class="py-2 px-3 border border-gray-300 text-sm font-semibold text-gray-700 text-left">Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="prestamo : ${prestamos}" class="even:bg-gray-50 hover:bg-gray-100">
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.id}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.user.name}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.user.dui}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.amountRequested}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.interestRate}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.monthlyPayment}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.yearsToPay}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${prestamo.createdBy.email}"></td>
+                        <td class="py-2 px-3 border border-gray-300" th:text="${#temporals.format(prestamo.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+
+                        <td class="py-2 px-3 border border-gray-300 capitalize" th:text="${prestamo.status}"></td>
+                        <td class="py-2 px-3 border border-gray-300">
+                            <form th:action="@{/gerente-sucursal/prestamos/actualizar-status}" method="post" th:id="'form-' + ${prestamo.id}" class="flex space-x-2 items-center">
+                                <input type="hidden" name="id" th:value="${prestamo.id}" />
+
+                                <select name="status"
+                                        th:id="'select-' + ${prestamo.id}"
+                                        th:onchange="'enableButton(' + ${prestamo.id} + ')'"
+                                        class="border-gray-300 rounded px-2 py-1 text-sm">
+                                    <option th:each="estado : ${statusValues}"
+                                            th:value="${estado}"
+                                            th:text="${#strings.capitalize(estado.name())}"
+                                            th:selected="${prestamo.status == estado}">
+                                    </option>
+                                </select>
+
+                                <button type="submit"
+                                        th:id="'btn-' + ${prestamo.id}"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded disabled:opacity-50"
+                                        disabled>
+                                    Actualizar
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    const originalStatuses = {};
+
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('select[name="status"]').forEach(select => {
+            originalStatuses[select.id] = select.value;
+        });
+    });
+
+    function enableButton(id) {
+        const select = document.getElementById('select-' + id);
+        const button = document.getElementById('btn-' + id);
+
+        if (select.value !== originalStatuses[select.id]) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    }
+</script>
+</body>
+</html>
