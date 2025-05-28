@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  db_sistemabanco:
+    image: postgres:17.0-bullseye
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: db_sistemabanco
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: root123
+    ports:
+      - "5432:5432"
+    volumes:
+      - bankapp-data:/var/lib/postgresql/data
+    networks:
+      - bankapp-network
+
+volumes:
+  bankapp-data:
+
+networks:
+  bankapp-network:
